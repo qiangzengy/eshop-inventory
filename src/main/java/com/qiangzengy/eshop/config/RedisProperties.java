@@ -16,5 +16,4 @@ public class RedisProperties {
     //private int expireSeconds;
     //private int commandTimeout;
     private String nodes;
-
 }
