@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qiangzengy.eshop.mapper.ProductInventoryMapper">
+
+
+    <update id="updateProductInventory" parameterType="com.qiangzxengy.eshop.entity.ProductInventory">
+		update product_inventory set inventory_cnt=#{inventoryCnt} where product_id=#{productId}
+  	</update>
+
+
+	<select id="inventoryCnt" resultType="com.qiangzxengy.eshop.entity.ProductInventory">
+       select product_id as "productId",product_inventory from inventory_cnt=#{inventoryCnt} where product_id=#{productId}
+  	</select>
+
+</mapper>
