@@ -24,7 +24,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     private RedisDao redisDao;
 
     @Override
-    public User getKey() {
+    public User getCachedUserInfo() {
         redisDao.setData("cached_user_lisi", "{\"name\": \"lisi\", \"age\":28}");
 
         String userJSON = redisDao.getKey("cached_user_lisi");

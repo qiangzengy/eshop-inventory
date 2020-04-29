@@ -17,4 +17,5 @@ public interface ProductInventoryMapper {
     ProductInventory inventoryCnt(@Param("productId")Integer productId);
 
 
+    ProductInventory findProductInventory(@Param("productId") Integer productId);
 }

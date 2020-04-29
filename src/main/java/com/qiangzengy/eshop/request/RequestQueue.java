@@ -5,7 +5,9 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  *
@@ -23,6 +25,15 @@ public class RequestQueue {
 
     //内存队列
     private   List<ArrayBlockingQueue<Request>>queues=new ArrayList<>();
+
+    /**
+     * 标识位map
+     */
+    private Map<Integer, Boolean> flagMap = new ConcurrentHashMap<>();
+
+    public Map<Integer, Boolean> getFlagMap() {
+        return flagMap;
+    }
 
     /**
      * 单例

@@ -37,7 +37,7 @@ public class UserController {
     @ApiModelProperty(value = "查询缓存")
     @RequestMapping(value = "findRedis",method = RequestMethod.GET)
     public User findRedis(){
-        return userService.getKey();
+        return userService.getCachedUserInfo();
     }
 
 }

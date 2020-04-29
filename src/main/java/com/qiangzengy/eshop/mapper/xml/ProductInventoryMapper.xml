@@ -12,4 +12,8 @@
        select product_id as "productId",product_inventory from inventory_cnt=#{inventoryCnt} where product_id=#{productId}
   	</select>
 
+	<select id="findProductInventory" resultType="com.roncoo.eshop.inventory.model.ProductInventory">
+  		select product_id as "productId",inventory_cnt as "inventoryCnt" from product_inventory where product_id=#{productId}
+  	</select>
+
 </mapper>

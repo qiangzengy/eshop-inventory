@@ -10,5 +10,4 @@ public interface RedisDao {
     String getKey(String key);
     void delete(String key);
 
-
 }

@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://47.104.239.106:3306/eshop?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
+  redis:
+    cluster:
+       nodes: 192.168.3.35:7001,192.168.3.37:7003,192.168.3.37:7004
+#mybatis-plus:
+#  config-location: classpath:/com/qiangzengy/eshop/mapper/xml/*.xml
+mybatis-plus:
+  con
+  #configuration:
+  #  log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+  config-location: classpath:/com/qiangzengy/eshop/mapper/xml/*.xml

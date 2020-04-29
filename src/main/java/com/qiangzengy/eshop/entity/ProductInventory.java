@@ -20,8 +20,6 @@ public class ProductInventory {
     @ApiModelProperty(value = "商品库存")
     private long inventoryCnt;
 
-    public ProductInventory() {
-    }
 
     public ProductInventory(Integer productId, long inventoryCnt) {
         this.productId = productId;
