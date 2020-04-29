@@ -17,5 +17,4 @@ public class RedisProperties {
     //private int commandTimeout;
     private String nodes;
 
-
 }
