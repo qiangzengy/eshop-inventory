@@ -4,9 +4,8 @@ import com.qiangzengy.eshop.dao.RedisDao;
 import com.qiangzengy.eshop.entity.ProductInventory;
 import com.qiangzengy.eshop.mapper.ProductInventoryMapper;
 import com.qiangzengy.eshop.service.ProductInventoryService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.Resource;
 
 /**
  * @author qiangzeng
@@ -17,10 +16,10 @@ import javax.annotation.Resource;
 public class ProductInventoryServiceImpl implements ProductInventoryService {
 
 
-    @Resource
+    @Autowired
     private ProductInventoryMapper productInventoryMapper;
 
-    @Resource
+    @Autowired
     private RedisDao redisDao;
 
     /**
@@ -55,7 +54,7 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
      */
     @Override
     public ProductInventory inventoryCnt(Integer productId) {
-        return productInventoryMapper.inventoryCnt(productId);
+        return productInventoryMapper.findProductInventory(productId);
     }
 
     /**
