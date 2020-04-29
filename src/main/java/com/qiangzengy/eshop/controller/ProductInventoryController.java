@@ -95,14 +95,19 @@ public class ProductInventoryController {
             // 等待超过200ms没有从缓存中获取到结果
             while(true) {
                 // 面向用户的读请求控制在200ms
-                /*if(waitTime > 200) {
-                    break;
-                }*/
-
-                //测试
-                if(waitTime > 60000) {
+                if(waitTime > 200) {
                     break;
                 }
+
+                /**
+                 * 测试 由于先前测试好多遍，都无法将数据写入缓存，根据debug根据发现，hang时间的问题（需要hang的久一点)
+                 * 如果一个读请求过来，发现前面已经有一个写请求和一个读请求了，那么这个读请求就不需要压入队列中了
+                 * 因为那个写请求肯定会更新数据库，然后那个读请求肯定会从数据库中读取最新数据，然后刷新到缓存中，
+                 * 自己只要hang一会儿就可以从缓存中读到数据了
+                 */
+                /*if(waitTime > 180000) {
+                    break;
+                }*/
 
                 // 尝试去redis中读取一次商品库存的缓存数据
                 productInventory = productInventoryService.getProductInventoryCache(productId);
@@ -140,10 +145,12 @@ public class ProductInventoryController {
              */
             if(productInventory != null) {
 
+
                 // 将缓存刷新一下
                 // 这个过程，实际上是一个读操作的过程，但是没有放在队列中串行去处理，还是有数据不一致的问题
                 request = new ProductInventoryCacheRefreshRequest(
                         productId, productInventoryService, true);
+                request.process();
                 requestAsyncProcessService.process(request);
 
                 // 代码会运行到这里，只有三种情况：
