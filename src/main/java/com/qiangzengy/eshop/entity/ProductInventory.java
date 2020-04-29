@@ -29,6 +29,10 @@ public class ProductInventory implements Serializable {
     private long inventoryCnt;
 
 
+    public ProductInventory() {
+
+    }
+
     public ProductInventory(Integer productId, long inventoryCnt) {
         this.productId = productId;
         this.inventoryCnt = inventoryCnt;

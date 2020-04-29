@@ -7,6 +7,6 @@
     </update>
 
     <select id="findProductInventory" resultType="com.qiangzengy.eshop.entity.ProductInventory">
-          select product_id as "productId",inventory_cnt as "inventoryCnt" from product_inventory where product_id=#{productId}
+          SELECT product_id as "productId", inventory_cnt as "inventoryCnt" FROM product_inventory WHERE product_id = #{productId}
     </select>
 </mapper>

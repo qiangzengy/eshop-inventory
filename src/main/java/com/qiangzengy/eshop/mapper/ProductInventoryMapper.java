@@ -15,6 +15,5 @@ public interface ProductInventoryMapper {
 
     void updateProductInventory(ProductInventory productInventory);
 
-
     ProductInventory findProductInventory(@Param("productId") Integer productId);
 }

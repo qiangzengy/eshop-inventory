@@ -42,9 +42,10 @@ public class ProductInventoryCacheRefreshRequest implements Request{
     public void process() {
 
         //从数据查询最新的库存数据
-        ProductInventory productInventory= productInventoryService.inventoryCnt(productId);
+        ProductInventory productInventory= productInventoryService.findProductInventory(productId);
         log.info("已查询到商品最新的库存数量，商品id=" + productId + ", 商品库存数量=" + productInventory.getInventoryCnt());
-        //将查询的库存数据写入rdis
+        //将查询的库存数据写入redis
+        System.out.println(" ============将查询的库存数据写入redis");
         productInventoryService.setData(productInventory);
 
     }

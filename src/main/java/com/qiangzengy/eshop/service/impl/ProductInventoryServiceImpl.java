@@ -43,18 +43,8 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 
         String key="product:inventory:"+productInventory.getProductId();
         redisDao.delete(key);
-        System.out.println("已删除：productInventoryId："+productInventory.getProductId());
+        System.out.println("已删除redis缓存：productInventoryId："+productInventory.getProductId());
 
-    }
-
-    /**
-     * 查询数据库库存
-     * @param productId
-     * @return
-     */
-    @Override
-    public ProductInventory inventoryCnt(Integer productId) {
-        return productInventoryMapper.findProductInventory(productId);
     }
 
     /**
@@ -63,8 +53,9 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
      */
     @Override
     public void setData(ProductInventory productInventory) {
-        String key="product:inventory"+productInventory.getProductId();
+        String key="product:inventory:"+productInventory.getProductId();
         String value=String.valueOf(productInventory.getInventoryCnt());
+        System.out.println("写入缓存数据 ："+value);
         redisDao.setData(key,value);
     }
 
@@ -77,8 +68,8 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
         Long inventoryCnt = 0L;
         String key = "product:inventory:" + productId;
         String result = redisDao.getKey(key);
-
         if(result != null && !"".equals(result)) {
+            System.out.println( "获取商品库存的缓存 不为空 ： "+result);
             try {
                 inventoryCnt = Long.valueOf(result);
                 return new ProductInventory(productId, inventoryCnt);

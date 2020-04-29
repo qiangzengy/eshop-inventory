@@ -20,12 +20,6 @@ public interface ProductInventoryService {
      */
     void remove(ProductInventory productInventory);
 
-    /**
-     * 根据商品id查询商品库存
-     * @param productId 商品id
-     * @return 商品库存
-     */
-    ProductInventory inventoryCnt(Integer productId);
 
     /**
      * 设置商品库存的缓存

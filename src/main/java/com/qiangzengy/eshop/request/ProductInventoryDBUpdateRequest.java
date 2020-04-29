@@ -33,6 +33,7 @@ public class  ProductInventoryDBUpdateRequest implements Request {
         productInventoryService.remove(productInventory);
 
         // 为了模拟演示先删除了redis中的缓存，然后还没更新数据库的时候，读请求过来了，这里可以人工sleep一下
+
 		try {
 			Thread.sleep(20000);
 		} catch (InterruptedException e) {

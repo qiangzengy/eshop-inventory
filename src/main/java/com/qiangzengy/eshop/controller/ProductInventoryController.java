@@ -94,9 +94,13 @@ public class ProductInventoryController {
 
             // 等待超过200ms没有从缓存中获取到结果
             while(true) {
-//
                 // 面向用户的读请求控制在200ms
-                if(waitTime > 200) {
+                /*if(waitTime > 200) {
+                    break;
+                }*/
+
+                //测试
+                if(waitTime > 60000) {
                     break;
                 }
 
@@ -135,6 +139,7 @@ public class ProductInventoryController {
              *
              */
             if(productInventory != null) {
+
                 // 将缓存刷新一下
                 // 这个过程，实际上是一个读操作的过程，但是没有放在队列中串行去处理，还是有数据不一致的问题
                 request = new ProductInventoryCacheRefreshRequest(
