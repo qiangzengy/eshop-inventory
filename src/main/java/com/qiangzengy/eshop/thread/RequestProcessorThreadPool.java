@@ -72,11 +72,18 @@ public class RequestProcessorThreadPool {
      *
      */
 
+    //ExecutorService threadPool= Executors.newFixedThreadPool(10);
 
-    //TODO  需要优化
+    ThreadPoolExecutor threadPool=new ThreadPoolExecutor(
+            10,
+            200,
+            10,
+            TimeUnit.SECONDS,
+            new LinkedBlockingDeque<>(100000),
+             Executors.defaultThreadFactory(),
+            new ThreadPoolExecutor.AbortPolicy()
+    );
 
-
-    ExecutorService threadPool= Executors.newFixedThreadPool(10);
 
     /**
      * 构造方法
@@ -94,7 +101,5 @@ public class RequestProcessorThreadPool {
         }
 
     }
-
-
 
 }
