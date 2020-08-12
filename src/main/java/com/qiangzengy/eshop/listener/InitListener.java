@@ -28,7 +28,6 @@ public class InitListener implements ServletContextListener {
         log.info("==============系统初始化监听器=====");
         // 初始化工作线程池和内存队列
         RequestProcessorThreadPool.init();
-
     }
 
     @Override

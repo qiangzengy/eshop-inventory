@@ -7,8 +7,7 @@ import com.qiangzengy.eshop.request.Request;
 import com.qiangzengy.eshop.service.ProductInventoryService;
 import com.qiangzengy.eshop.service.RequestAsyncProcessService;
 import com.qiangzengy.eshop.vo.Response;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -43,9 +42,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
+@Slf4j
 public class ProductInventoryController {
-
-    static Logger log = LoggerFactory.getLogger(ProductInventoryController.class);
 
     @Autowired
     private RequestAsyncProcessService requestAsyncProcessService;
@@ -58,7 +56,7 @@ public class ProductInventoryController {
     @RequestMapping("/updateProductInventory")
     public Response updateProductInventory(ProductInventory productInventory) {
         log.info("===========日志===========: 接收到更新商品库存的请求，商品id=" + productInventory.getProductId() + ", 商品库存数量=" + productInventory.getInventoryCnt());
-        Response response = null;
+        Response response;
         try {
             Request request = new ProductInventoryDBUpdateRequest(
                     productInventory, productInventoryService);
@@ -89,7 +87,7 @@ public class ProductInventoryController {
             // 将请求扔给service异步去处理以后，就需要while(true)一会儿，在这里hang住
             // 去尝试等待前面有商品库存更新的操作，同时缓存刷新的操作，将最新的数据刷新到缓存中
             long startTime = System.currentTimeMillis();
-            long endTime = 0L;
+            long endTime ;
             long waitTime = 0L;
 
             // 等待超过200ms没有从缓存中获取到结果
@@ -116,10 +114,7 @@ public class ProductInventoryController {
                 if(productInventory != null) {
                     log.info("===========日志===========: 在200ms内读取到了redis中的库存缓存，商品id=" + productInventory.getProductId() + ", 商品库存数量=" + productInventory.getInventoryCnt());
                     return productInventory;
-                }
-
-                // 如果没有读取到结果，那么等待一段时间
-                else {
+                } else {// 如果没有读取到结果，那么等待一段时间
                     Thread.sleep(20);
                     endTime = System.currentTimeMillis();
                     waitTime = endTime - startTime;

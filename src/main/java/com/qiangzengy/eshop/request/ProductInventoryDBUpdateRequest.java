@@ -2,8 +2,7 @@ package com.qiangzengy.eshop.request;
 
 import com.qiangzengy.eshop.entity.ProductInventory;
 import com.qiangzengy.eshop.service.ProductInventoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * （1）删除缓存
@@ -11,9 +10,8 @@ import org.slf4j.LoggerFactory;
  * @author qiangzeng
  * @date 2020/4/21 下午9:33
  */
+@Slf4j
 public class  ProductInventoryDBUpdateRequest implements Request {
-
-    static Logger log = LoggerFactory.getLogger(RequestQueue.class);
 
     private ProductInventory productInventory;
 

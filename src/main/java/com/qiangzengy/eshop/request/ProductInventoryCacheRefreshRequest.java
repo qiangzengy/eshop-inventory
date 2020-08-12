@@ -2,17 +2,15 @@ package com.qiangzengy.eshop.request;
 
 import com.qiangzengy.eshop.entity.ProductInventory;
 import com.qiangzengy.eshop.service.ProductInventoryService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * 重新加载数据库缓存
  * @author qiangzeng
  * @date 2020/4/21 下午9:38
  */
+@Slf4j
 public class ProductInventoryCacheRefreshRequest implements Request{
-
-    static Logger log = LoggerFactory.getLogger(RequestQueue.class);
 
 
     /**

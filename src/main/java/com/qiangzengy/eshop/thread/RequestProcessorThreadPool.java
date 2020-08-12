@@ -2,47 +2,58 @@ package com.qiangzengy.eshop.thread;
 
 import com.qiangzengy.eshop.request.Request;
 import com.qiangzengy.eshop.request.RequestQueue;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.*;
 
 /**
- *
  * 执行请求线程池
  *
  * @author qiangzeng
  * @date 2020/4/21 下午7:14
- *
- *
  */
-
+@Slf4j
 public class RequestProcessorThreadPool {
-
-   static Logger log = LoggerFactory.getLogger(RequestQueue.class);
-
 
     /**
      * 单例有很多种方式去实现：我采取绝对线程安全的一种方式
-     *
+     * <p>
      * 静态内部类的方式，去初始化单例
      *
      * @author Administrator
-     *
      */
     private static class SingletonHolder {
+
+
+        /*private static RequestProcessorThreadPool instance;
+        static {
+            //此行代码只会被执行一次
+            instance = new RequestProcessorThreadPool();
+        }
+        public static RequestProcessorThreadPool getInstance() {
+            return instance;
+        }*/
+
+
         private static final RequestProcessorThreadPool threadPool =
                 new RequestProcessorThreadPool();
     }
 
+        /*public static RequestProcessorThreadPool getInstance() {
+            log.info("========初始化线程池======");
+            return SingletonHolder.getInstance();
+        }*/
+
+
+
+
+
     /**
      * jvm的机制去保证多线程并发安全
-     *
      * 内部类的初始化，一定只会发生一次，不管多少个线程并发去初始化
-     *
      * @return
      */
-    public static RequestProcessorThreadPool getInstance(){
+    public static RequestProcessorThreadPool getInstance() {
         log.info("========初始化线程池======");
         return SingletonHolder.threadPool;
     }
@@ -50,15 +61,10 @@ public class RequestProcessorThreadPool {
     /**
      * 初始化方法
      */
-    public static void init(){
+    public static void init() {
         log.info("=====执行init方法========");
         getInstance();
     }
-
-
-    /**
-     * 线程池
-     */
 
 
     /**
@@ -69,20 +75,22 @@ public class RequestProcessorThreadPool {
      *   允许的请求队列长度为Integer.MAX_VALUE，可能会堆积大量的请求，从而导致OOM。
      * 2）CachedThreadPool:
      *   允许的创建线程数量为Integer.MAX_VALUE，可能会创建大量的线程，从而导致OOM。
-     *
      */
 
     //ExecutorService threadPool= Executors.newFixedThreadPool(10);
 
-    ThreadPoolExecutor threadPool=new ThreadPoolExecutor(
+    ThreadPoolExecutor threadPool = new ThreadPoolExecutor(
             10,
             200,
             10,
             TimeUnit.SECONDS,
             new LinkedBlockingDeque<>(100000),
-             Executors.defaultThreadFactory(),
+            Executors.defaultThreadFactory(),
             new ThreadPoolExecutor.AbortPolicy()
     );
+
+
+    //    private   List<ArrayBlockingQueue<Request>>queues=new ArrayList<>();
 
 
     /**
@@ -91,11 +99,14 @@ public class RequestProcessorThreadPool {
     private RequestProcessorThreadPool() {
 
         log.info("=======执行RequestProcessorThreadPool构造方法=====");
-
         RequestQueue requestQueue = RequestQueue.getInstance();
+        //创建10个内存队列
+        for (int i = 0; i < 10; i++) {
 
-        for(int i = 0; i < 10; i++) {
-            ArrayBlockingQueue<Request> queue = new ArrayBlockingQueue<Request>(100);
+            /**
+             * ArrayBlockingQueue
+             */
+            ArrayBlockingQueue<Request> queue = new ArrayBlockingQueue<>(100);
             requestQueue.addQueue(queue);
             threadPool.submit(new RequestProcessorThread(queue));
         }

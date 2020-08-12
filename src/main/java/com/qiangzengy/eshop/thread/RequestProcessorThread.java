@@ -33,6 +33,7 @@ public class RequestProcessorThread implements Callable<Boolean> {
             while(true) {
                 // ArrayBlockingQueue
                 // Blocking就是说明，如果队列满了，或者是空的，那么都会在执行操作的时候，阻塞住
+                //take()方法，删除队列头部元素，如果队列为空，一直阻塞到队列有元素并删除
                 Request request = queue.take();
 
                 boolean forceRfresh = request.isForceRefresh();
@@ -75,11 +76,27 @@ public class RequestProcessorThread implements Callable<Boolean> {
                     } else if(request instanceof ProductInventoryCacheRefreshRequest) {
                         Boolean flag = flagMap.get(request.getProductId());
 
-                        // 如果flag是null
+                        /*可能某个数据，在数据库里面压根儿就没有，那么那个读请求是不需要放入内存队列的，而且读请求在controller那一层，直接就可以返回了，不需要等待
+
+                        如果数据库里都没有，就说明，内存队列里面如果没有数据库更新的请求的话，一个读请求过来了，就可以认为是数据库里就压根儿没有数据吧
+
+                        如果缓存里没数据，就两个情况，第一个是数据库里就没数据，缓存肯定也没数据; 第二个是数据库更新操作过来了，先删除了缓存，此时缓存是空的，但是数据库里是有的
+
+                        但是的话呢，我们做了之前的读请求去重优化，用了一个flag map，只要前面有数据库更新操作，flag就肯定是存在的，你只不过可以根据true或false，判断你前面执行的是写请求还是读请求
+
+                        但是如果flag压根儿就没有呢，就说明这个数据，无论是写请求，还是读请求，都没有过
+
+                        那这个时候过来的读请求，发现flag是null，就可以认为数据库里肯定也是空的，那就不会去读取了
+
+                        或者说，我们也可以认为每个商品有一个最最初始的库存，但是因为最初始的库存肯定会同步到缓存中去的，有一种特殊的情况，就是说，商品库存本来在redis中是有缓存的
+
+                        但是因为redis内存满了，就给干掉了，但是此时数据库中是有值得
+
+                        那么在这种情况下，可能就是之前没有任何的写请求和读请求的flag的值，此时还是需要从数据库中重新加载一次数据到缓存中的*/
                         if(flag == null) {
+                            //此时有一个读请求过来，将flagMap设置为false
                             flagMap.put(request.getProductId(), false);
                         }
-
                         // 如果是缓存刷新的请求，那么就判断，如果标识不为空，而且是true，就说明之前有一个这个商品的数据库更新请求
                         if(flag != null && flag) {
                             flagMap.put(request.getProductId(), false);
@@ -93,8 +110,6 @@ public class RequestProcessorThread implements Callable<Boolean> {
                         }
                     }
                 }
-
-
                 System.out.println("===========日志===========: 工作线程处理请求，商品id=" + request.getProductId());
                 // 执行这个request操作
                 request.process();

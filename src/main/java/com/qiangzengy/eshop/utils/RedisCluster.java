@@ -23,14 +23,11 @@ public class RedisCluster {
     public JedisCluster instance(){
         String [] serverArray=redisProperties.getNodes().split(",");
         Set<HostAndPort> nodes=new HashSet<>();
-
         for (String ipPort:serverArray){
             String [] ipPortPair=ipPort.split(":");
             nodes.add(new HostAndPort(ipPortPair[0].trim(),Integer.valueOf(ipPortPair[1].trim())));
-
         }
         return new JedisCluster(nodes);
-
     }
 
 }

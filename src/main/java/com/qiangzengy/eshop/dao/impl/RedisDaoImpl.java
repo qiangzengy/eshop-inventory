@@ -20,7 +20,6 @@ public class RedisDaoImpl implements RedisDao {
     @Override
     public void setData(String key, String value) {
         redisCluster.instance().set(key,value);
-
     }
 
     @Override

@@ -3,11 +3,11 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://192.168.3.42:3306/eshop?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
+    url: jdbc:mysql://192.168.1.118:3306/eshop?useUnicode=true&characterEncoding=utf-8&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
   redis:
     cluster:
-       nodes: 192.168.3.35:7001,192.168.3.37:7003,192.168.3.37:7004
+       nodes: 192.168.1.54:7001,192.168.1.55:7003,192.168.1.56:7005
 mybatis-plus:
   mapper-locations: classpath*:/com/qiangzengy/eshop/mapper/xml/*.xml

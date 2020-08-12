@@ -28,7 +28,6 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
      */
     @Override
     public void updateProductInventory(ProductInventory productInventory) {
-
         productInventoryMapper.updateProductInventory(productInventory);
         System.out.println("已修改：productInventoryId："+productInventory.getProductId());
 
@@ -40,7 +39,6 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
 
     @Override
     public void remove(ProductInventory productInventory){
-
         String key="product:inventory:"+productInventory.getProductId();
         redisDao.delete(key);
         System.out.println("已删除redis缓存：productInventoryId："+productInventory.getProductId());
@@ -65,7 +63,7 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
      * @return
      */
     public ProductInventory getProductInventoryCache(Integer productId) {
-        Long inventoryCnt = 0L;
+        Long inventoryCnt;
         String key = "product:inventory:" + productId;
         String result = redisDao.getKey(key);
         if(result != null && !"".equals(result)) {
@@ -83,6 +81,5 @@ public class ProductInventoryServiceImpl implements ProductInventoryService {
     @Override
     public ProductInventory findProductInventory(Integer productId) {
         return productInventoryMapper.findProductInventory(productId);
-
     }
 }
