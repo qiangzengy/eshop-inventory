@@ -7,6 +7,8 @@ import com.qiangzengy.eshop.service.ProductInventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @author qiangzeng
  * @date 2020/4/21 下午9:26
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class ProductInventoryServiceImpl implements ProductInventoryService {
 
 
-    @Autowired
+    @Resource
     private ProductInventoryMapper productInventoryMapper;
 
     @Autowired

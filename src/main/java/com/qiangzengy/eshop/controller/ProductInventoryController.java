@@ -92,7 +92,7 @@ public class ProductInventoryController {
             while (waitTime <= 200) {
                 // 面向用户的读请求控制在200ms
 
-                /**
+                /*
                  * 测试 由于先前测试好多遍，都无法将数据写入缓存，根据debug根据发现，hang时间的问题（需要hang的久一点)
                  * 如果一个读请求过来，发现前面已经有一个写请求和一个读请求了，那么这个读请求就不需要压入队列中了
                  * 因为那个写请求肯定会更新数据库，然后那个读请求肯定会从数据库中读取最新数据，然后刷新到缓存中，
@@ -119,7 +119,7 @@ public class ProductInventoryController {
             // 直接尝试从数据库中读取数据
             productInventory = productInventoryService.findProductInventory(productId);
 
-            /**
+            /*
              * 8、深入的去思考优化代码的漏洞
              *
              * 一个读请求过来，将数据库中的数刷新到了缓存中，flag是false，然后过了一会儿，redis内存满了，自动删除了这个额缓存
