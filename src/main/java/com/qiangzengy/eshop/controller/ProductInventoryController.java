@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 /**
  * 商品库存Controller
  *
- * 大家考虑一下，我要模拟的场景：
+ * 模拟的场景：
  *
  *（1）一个更新商品库存的请求过来，然后此时会先删除redis中的缓存，然后模拟卡顿5秒钟
  *（2）在这个卡顿的5秒钟内，我们发送一个商品缓存的读请求，因为此时redis中没有缓存，就会来请求将数据库中最新的数据刷新到缓存中
@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RestController;
  * 如果是不一致的情况，可能会出现说redis中还是库存为100，但是数据库中也许已经更新成了库存为99了
  *
  * 现在做了一致性保障的方案之后，就可以保证说，数据是一致的
- *
- * 最后说一点点
  *
  * 包括这个方案在内，还有后面的各种解决方案，首先都是针对我自己遇到过的特殊场景去设计的
  *
@@ -77,7 +75,7 @@ public class ProductInventoryController {
     @RequestMapping("/getProductInventory")
     public ProductInventory getProductInventory(Integer productId) {
         log.info("===========日志===========: 接收到一个商品库存的读请求，商品id=" + productId);
-        ProductInventory productInventory = null;
+        ProductInventory productInventory;
 
         try {
             Request request = new ProductInventoryCacheRefreshRequest(
@@ -91,11 +89,8 @@ public class ProductInventoryController {
             long waitTime = 0L;
 
             // 等待超过200ms没有从缓存中获取到结果
-            while(true) {
+            while (waitTime <= 200) {
                 // 面向用户的读请求控制在200ms
-                if(waitTime > 200) {
-                    break;
-                }
 
                 /**
                  * 测试 由于先前测试好多遍，都无法将数据写入缓存，根据debug根据发现，hang时间的问题（需要hang的久一点)
@@ -111,7 +106,7 @@ public class ProductInventoryController {
                 productInventory = productInventoryService.getProductInventoryCache(productId);
 
                 // 如果读取到了结果，那么就返回
-                if(productInventory != null) {
+                if (productInventory != null) {
                     log.info("===========日志===========: 在200ms内读取到了redis中的库存缓存，商品id=" + productInventory.getProductId() + ", 商品库存数量=" + productInventory.getInventoryCnt());
                     return productInventory;
                 } else {// 如果没有读取到结果，那么等待一段时间
