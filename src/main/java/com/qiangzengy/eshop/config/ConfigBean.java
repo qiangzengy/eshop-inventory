@@ -12,7 +12,6 @@ public class ConfigBean {
      * 注册监听器
      * @return
      */
-    @SuppressWarnings({ "rawtypes", "unchecked" })
     @Bean
     public ServletListenerRegistrationBean servletListenerRegistrationBean() {
         ServletListenerRegistrationBean servletListenerRegistrationBean =
@@ -20,4 +19,5 @@ public class ConfigBean {
         servletListenerRegistrationBean.setListener(new InitListener());
         return servletListenerRegistrationBean;
     }
+
 }

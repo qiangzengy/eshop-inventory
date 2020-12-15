@@ -24,7 +24,6 @@ public class RequestProcessorThreadPool {
      */
     private static class SingletonHolder {
 
-
         /*private static RequestProcessorThreadPool instance;
         static {
             //此行代码只会被执行一次
@@ -33,8 +32,6 @@ public class RequestProcessorThreadPool {
         public static RequestProcessorThreadPool getInstance() {
             return instance;
         }*/
-
-
         private static final RequestProcessorThreadPool threadPool =
                 new RequestProcessorThreadPool();
     }
@@ -99,6 +96,7 @@ public class RequestProcessorThreadPool {
     private RequestProcessorThreadPool() {
 
         log.info("=======执行RequestProcessorThreadPool构造方法=====");
+        // 初始化内存队列
         RequestQueue requestQueue = RequestQueue.getInstance();
         //创建10个内存队列
         for (int i = 0; i < 10; i++) {

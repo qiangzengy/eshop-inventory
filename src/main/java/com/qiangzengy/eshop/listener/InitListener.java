@@ -3,7 +3,6 @@ package com.qiangzengy.eshop.listener;
 import com.qiangzengy.eshop.thread.RequestProcessorThreadPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.Configuration;
 
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -16,7 +15,6 @@ import javax.servlet.ServletContextListener;
  * 系统初始化监听器
  */
 
-@Configuration
 public class InitListener implements ServletContextListener {
 
     Logger log = LoggerFactory.getLogger(InitListener.class);
