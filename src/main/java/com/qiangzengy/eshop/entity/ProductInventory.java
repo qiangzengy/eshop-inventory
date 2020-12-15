@@ -14,18 +14,16 @@ import java.io.Serializable;
  * @date 2020/4/21 下午9:12
  */
 
-@Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 public class ProductInventory implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "ID")
     @TableId(value = "id", type = IdType.ID_WORKER)
     private Integer productId;
 
     @ApiModelProperty(value = "商品库存")
+    @TableId(value = "inventory_cnt")
     private long inventoryCnt;
 
 
@@ -35,6 +33,22 @@ public class ProductInventory implements Serializable {
 
     public ProductInventory(Integer productId, long inventoryCnt) {
         this.productId = productId;
+        this.inventoryCnt = inventoryCnt;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
+    }
+
+    public long getInventoryCnt() {
+        return inventoryCnt;
+    }
+
+    public void setInventoryCnt(long inventoryCnt) {
         this.inventoryCnt = inventoryCnt;
     }
 }

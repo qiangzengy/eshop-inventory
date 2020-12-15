@@ -26,14 +26,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     @Override
     public User getCachedUserInfo() {
         redisDao.setData("cached_user_lisi", "{\"name\": \"lisi\", \"age\":28}");
-
         String userJSON = redisDao.getKey("cached_user_lisi");
         JSONObject userJSONObject = JSONObject.parseObject(userJSON);
-
         User user = new User();
         user.setName(userJSONObject.getString("name"));
         user.setAge(userJSONObject.getInteger("age"));
-
         return user;
 
     }

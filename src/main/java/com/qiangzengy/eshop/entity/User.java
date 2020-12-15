@@ -18,13 +18,10 @@ import lombok.experimental.Accessors;
  * @author testjava
  * @since 2020-04-21
  */
-@Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @ApiModel(value="User对象", description="用户")
 public class User implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "ID")
     @TableId(value = "id", type = IdType.ID_WORKER)
@@ -42,5 +39,55 @@ public class User implements Serializable {
     @ApiModelProperty(value = "更新时间")
     private Date gmtModified;
 
+    public User() {
 
+    }
+
+    public User(Integer id, String name, Integer age, Date gmtCreate, Date gmtModified) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.gmtCreate = gmtCreate;
+        this.gmtModified = gmtModified;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
+    public Date getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Date gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Date getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Date gmtModified) {
+        this.gmtModified = gmtModified;
+    }
 }

@@ -8,6 +8,6 @@ spring:
     password: 123456
   redis:
     cluster:
-       nodes: 192.168.1.54:7001,192.168.1.55:7003,192.168.1.56:7005
+       nodes: 192.168.1.53:7006,192.168.1.52:7005,192.168.1.53:7003
 mybatis-plus:
   mapper-locations: classpath*:/com/qiangzengy/eshop/mapper/xml/*.xml
