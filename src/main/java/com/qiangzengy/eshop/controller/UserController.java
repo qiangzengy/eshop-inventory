@@ -5,6 +5,7 @@ import com.qiangzengy.eshop.entity.User;
 import com.qiangzengy.eshop.service.UserService;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,9 +36,9 @@ public class UserController {
 
 
     @ApiModelProperty(value = "查询缓存")
-    @RequestMapping(value = "findRedis",method = RequestMethod.GET)
-    public User findRedis(){
-        return userService.getCachedUserInfo();
+    @RequestMapping(value = "findRedis/{id}",method = RequestMethod.GET)
+    public User findRedis(@PathVariable("id") Long id){
+        return userService.getCachedUserInfo(id);
     }
 
 }

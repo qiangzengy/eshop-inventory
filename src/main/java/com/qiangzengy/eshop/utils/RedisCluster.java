@@ -1,6 +1,7 @@
 package com.qiangzengy.eshop.utils;
 
 import com.qiangzengy.eshop.config.RedisProperties;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import redis.clients.jedis.HostAndPort;
@@ -27,7 +28,9 @@ public class RedisCluster {
             String [] ipPortPair=ipPort.split(":");
             nodes.add(new HostAndPort(ipPortPair[0].trim(),Integer.parseInt(ipPortPair[1].trim())));
         }
-        return new JedisCluster(nodes);
+       // return new JedisCluster(nodes);
+        return new JedisCluster(nodes, 2000, 1000,
+        5,"redispass" ,new GenericObjectPoolConfig());
     }
 
 }
