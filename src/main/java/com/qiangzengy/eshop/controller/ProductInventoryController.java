@@ -136,7 +136,7 @@ public class ProductInventoryController {
             if(productInventory != null) {
 
 
-                // 将缓存刷新一下
+                // 强制缓存刷新一下
                 // 这个过程，实际上是一个读操作的过程，但是没有放在队列中串行去处理，还是有数据不一致的问题
                 request = new ProductInventoryCacheRefreshRequest(
                         productId, productInventoryService, true);

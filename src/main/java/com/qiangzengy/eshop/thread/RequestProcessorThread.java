@@ -67,6 +67,7 @@ public class RequestProcessorThread implements Callable<Boolean> {
                  */
 
                 // 先做读请求的去重
+                // 强制刷新，不走下面逻辑，因为前面有过读请求。
                 if(!forceRefresh) {
                     RequestQueue requestQueue = RequestQueue.getInstance();
                     Map<Integer, Boolean> flagMap = requestQueue.getFlagMap();
