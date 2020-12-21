@@ -141,6 +141,8 @@ public class ProductInventoryController {
                 request = new ProductInventoryCacheRefreshRequest(
                         productId, productInventoryService, true);
                 request.process();
+
+                //刷新缓存，为了解决lru过期产生的问题
                 requestAsyncProcessService.process(request);
 
                 // 代码会运行到这里，只有三种情况：
@@ -150,13 +152,13 @@ public class ProductInventoryController {
                 // 所以就直接查一次库，然后给队列里塞进去一个刷新缓存的请求
                 // 3、数据库里本身就没有，缓存穿透，穿透redis，请求到达mysql库
 
-                return productInventory;
             }
+            return productInventory;
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return new ProductInventory(productId, -1L);
+        return null;
     }
 
 

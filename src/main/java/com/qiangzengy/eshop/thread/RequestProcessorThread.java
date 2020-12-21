@@ -5,7 +5,6 @@ import com.qiangzengy.eshop.request.ProductInventoryDBUpdateRequest;
 import com.qiangzengy.eshop.request.Request;
 import com.qiangzengy.eshop.request.RequestQueue;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
