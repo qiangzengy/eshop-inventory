@@ -1,4 +1,4 @@
-package com.qiangzengy.eshop.utils;
+package com.qiangzengy.eshop.config;
 
 import com.google.common.base.Predicates;
 import org.springframework.context.annotation.Bean;

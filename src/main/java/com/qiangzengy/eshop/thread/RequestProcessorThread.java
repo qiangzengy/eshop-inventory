@@ -5,7 +5,9 @@ import com.qiangzengy.eshop.request.ProductInventoryDBUpdateRequest;
 import com.qiangzengy.eshop.request.Request;
 import com.qiangzengy.eshop.request.RequestQueue;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Callable;
 
@@ -36,8 +38,8 @@ public class RequestProcessorThread implements Callable<Boolean> {
                 //take()方法，删除队列头部元素，如果队列为空，一直阻塞到队列有元素并删除
                 Request request = queue.take();
 
-                boolean forceRfresh = request.isForceRefresh();
-                /**
+                boolean forceRefresh = request.isForceRefresh();
+                /*
                  * 6、读请求去重优化
                  *
                  * 如果一个读请求过来，发现前面已经有一个写请求和一个读请求了，那么这个读请求就不需要压入队列中了
@@ -66,7 +68,7 @@ public class RequestProcessorThread implements Callable<Boolean> {
                  */
 
                 // 先做读请求的去重
-                if(!forceRfresh) {
+                if(!forceRefresh) {
                     RequestQueue requestQueue = RequestQueue.getInstance();
                     Map<Integer, Boolean> flagMap = requestQueue.getFlagMap();
 
@@ -93,8 +95,8 @@ public class RequestProcessorThread implements Callable<Boolean> {
                         但是因为redis内存满了，就给干掉了，但是此时数据库中是有值得
 
                         那么在这种情况下，可能就是之前没有任何的写请求和读请求的flag的值，此时还是需要从数据库中重新加载一次数据到缓存中的*/
-                        if(flag == null) {
-                            //此时有一个读请求过来，将flagMap设置为false
+                        if(Objects.isNull(flag)) {
+                            //此时第一个读请求过来，将flagMap设置为false
                             flagMap.put(request.getProductId(), false);
                         }
                         // 如果是缓存刷新的请求，那么就判断，如果标识不为空，而且是true，就说明之前有一个这个商品的数据库更新请求

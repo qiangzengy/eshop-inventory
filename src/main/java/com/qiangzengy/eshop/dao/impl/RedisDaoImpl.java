@@ -1,7 +1,7 @@
 package com.qiangzengy.eshop.dao.impl;
 
 import com.qiangzengy.eshop.dao.RedisDao;
-import com.qiangzengy.eshop.utils.RedisCluster;
+import com.qiangzengy.eshop.config.RedisCluster;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;

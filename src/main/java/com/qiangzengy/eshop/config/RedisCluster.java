@@ -1,4 +1,4 @@
-package com.qiangzengy.eshop.utils;
+package com.qiangzengy.eshop.config;
 
 import com.qiangzengy.eshop.config.RedisProperties;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
